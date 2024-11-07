@@ -1,5 +1,8 @@
 const Task = require('../models/task');
 
+// for validation
+// const { body, validationResult } = require('express-validator');
+
 const getTask = async (req, res) => {
     const _id = req.params.id;
     try {
@@ -71,9 +74,10 @@ const createTask = async (req, res) => {
 }
 
 const filterTasks = async (req, res) => {
-    const completed = req.params.completed;
+    const iscompleted = req.query.completed === 'true';
+
     try {
-        const tasks = await Task.find({ completed: completed });
+        const tasks = await Task.find({ completed: iscompleted });
         res.send(tasks);
     } catch (e) {
         res.status(500).send();
