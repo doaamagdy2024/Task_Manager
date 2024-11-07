@@ -54,8 +54,13 @@ const deleteTask = async (req, res) => {
 }
 
 const getAllTasks = async (req, res) => {
+    // using pagination
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * limit;
+
     try {
-        const tasks = await Task.find();
+        const tasks = await Task.find().limit(limit).skip(skip);
         res.json({status: httpStatusText.SUCCESS, data: tasks});
     } catch (e) {
         res.status(500).json({status: httpStatusText.ERROR, message: e.message});
