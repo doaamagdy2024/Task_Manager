@@ -3,16 +3,19 @@ const Task = require('../models/task');
 // for validation
 // const { body, validationResult } = require('express-validator');
 
+// use jSend for response
+const httpStatusText = require('../utils/httpStatusText.js');
+
 const getTask = async (req, res) => {
     const _id = req.params.id;
     try {
         const task = await Task.findById(_id);
         if (!task) {
-            return res.status(404).send("Task not found");
+            return res.status(404).json({status: httpStatusText.FAILURE, message: 'Task not found'});
         }
-        res.send(task);
+        res.json({status: httpStatusText.SUCCESS, data: task});
     } catch (e) {
-        res.status(500).send();
+        res.status(500).json({status: httpStatusText.ERROR, message: e.message});
     }
 }
 
@@ -23,16 +26,16 @@ const updateTask = async (req, res) => {
     const allowedUpdates = ['title', 'completed', 'description', 'dueDate'];
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
     if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' });
+        return res.status(400).json({status: httpStatusText.FAILURE, message: 'Invalid updates!'});
     }
     try {
         const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!task) {
-            return res.status(404).send();
+            return res.status(404).json({status: httpStatusText.FAILURE, message: 'Task not found'});
         }
         res.send(task);
     } catch (e) {
-        res.status(400).send(e);
+        res.status(400).json({status: httpStatusText.ERROR, message: e.message});
     }
 }
 
@@ -42,20 +45,20 @@ const deleteTask = async (req, res) => {
     try {
         const task = await Task.findByIdAndDelete(req.query._id);
         if (!task) {
-            return res.status(404).send();
+            return res.status(404).json({status: httpStatusText.FAILURE, message: 'Task not found'});
         }
-        res.send(task);
+        res.json({status: httpStatusText.SUCCESS, message: 'Task deleted successfully', data: task});
     } catch (e) {
-        res.status(500).send();
+        res.status(500).json({status: httpStatusText.ERROR, message: e.message});
     }
 }
 
 const getAllTasks = async (req, res) => {
     try {
         const tasks = await Task.find();
-        res.send(tasks);
+        res.json({status: httpStatusText.SUCCESS, data: tasks});
     } catch (e) {
-        res.status(500).send();
+        res.status(500).json({status: httpStatusText.ERROR, message: e.message});
     }
 }
 
@@ -64,11 +67,11 @@ const createTask = async (req, res) => {
     console.log(req.body);
     const task = new Task(req.body);
     try {
-        console.log(task);
+        // console.log(task);
         await task.save();
-        res.status(201).send(task);
+        res.status(201).json({status: httpStatusText.SUCCESS, message: 'Task created successfully', data: task});
     } catch (e) {
-        res.status(400).send(e);
+        res.status(400).json({status: httpStatusText.ERROR, message: e.message});
     }
 
 }
@@ -78,9 +81,9 @@ const filterTasks = async (req, res) => {
 
     try {
         const tasks = await Task.find({ completed: iscompleted });
-        res.send(tasks);
+        res.json({status: httpStatusText.SUCCESS, data: tasks});
     } catch (e) {
-        res.status(500).send();
+        res.status(500).json({status: httpStatusText.ERROR, message: e.message});
     }
 }
 
