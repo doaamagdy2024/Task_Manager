@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const httpStatusText = require('./utils/httpStatusText.js');
 const port = process.env.PORT || 3000;
 
 // use .env file
@@ -21,6 +22,13 @@ app.use(express.json());
 // routes
 const tasksRoute = require('./routes/tasks_route');
 app.use('/api/tasks', tasksRoute);
+
+
+// error handling --> if the route is not found
+app.all('*', (req, res) => {
+    res.status(404).json({status: httpStatusText.FAILURE, message: 'Resource not found'});
+    }
+);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
