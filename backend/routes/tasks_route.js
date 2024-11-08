@@ -15,13 +15,14 @@ router.route('/filter')
 // get a task by id / update a task / delete a task
 router.route('/:id')
     .get(auth, tasksController.getTask)
-    .patch(auth, tasksController.updateTask)
+    // .patch(auth, tasksController.updateTask)
     // .delete(tasksController.deleteTask);
 
 // get all tasks by user / create a task / update a task / delete a task
 router.route('/')
     .get(auth, tasksController.getAllTasks)
     .post(auth, tasksController.createTask)
+    .patch(auth, tasksController.updateTask)
     .delete(auth, tasksController.deleteTask);
     // .patch(tasksController.updateTask);
 
