@@ -41,7 +41,7 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
     //get the query parameter from the URL
-    console.log(req.query._id);
+    // console.log(req.query._id);
     try {
         const task = await Task.findByIdAndDelete(req.query._id);
         if (!task) {
@@ -69,7 +69,7 @@ const getAllTasks = async (req, res) => {
 
 
 const createTask = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const task = new Task(req.body);
     try {
         // console.log(task);

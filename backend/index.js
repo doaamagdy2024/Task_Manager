@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const httpStatusText = require('./utils/httpStatusText.js');
 const port = process.env.PORT || 3000;
+const cors = require('cors');
 
 // use .env file
 require('dotenv').config();
@@ -17,6 +18,7 @@ mongoose.connect(url + dbName).then(() => {
 
 
 // middleware
+app.use(cors()); // to allow cross-origin requests (cross origin resource sharing) -- so that the frontend can access the backend  (frontend and backend are on different servers)
 app.use(express.json());
 
 // routes
