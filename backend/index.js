@@ -32,6 +32,14 @@ app.all('*', (req, res) => {
     }
 );
 
+// error handling --> global error handler
+app.use((err, req, res, next) => {
+    // console.error(err.stack);
+    res.status(err.statusCode || 500).json({status: err.statusText, message: err.message});
+    // res.status(500).json({status: httpStatusText.ERROR, message: err.message});
+    }
+);
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
     }
