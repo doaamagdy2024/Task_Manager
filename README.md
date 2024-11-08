@@ -22,10 +22,32 @@ A simple Task Manager application that allows users to create, read, update, and
     - `validator` for input sanitization
     - `express-validator` for request validation
 
+## Project Structure
+├── controllers           
+│   ├── taskController.js  
+│   ├── userController.js  
+├── models               
+│   ├── User.js            
+│   ├── Task.js            
+├── routes                
+│   ├── user_routes.js      
+│   ├── task_routes.js      
+├── middlewares           
+│   ├── asynchWrapper.js      
+│   ├── authUser.js  
+│   ├── validationScheme.js   
+├── utils           
+│   ├── appError.js      
+│   ├── generateJWT.js  
+│   ├── httpStatusText.js    
+├── .env          
+├── index.js             
+└── package.json          
+
 ## Dev-dependencies
 
- **major dev-dependencies of the project:**
- - nodemon
+
+ - nodemon: Automatically restarts the server during development on file changes.
    
 
 ## Setup Instructions
@@ -47,3 +69,15 @@ A simple Task Manager application that allows users to create, read, update, and
     ```bash
     npm run run:dev
     ```
+
+## Backend API
+
+<pre>
+- POST     /api/users/register
+- POST     /api/users/login
+- GET      /api/tasks
+- GET      /api/tasks/:id
+- POST     /api/tasks
+- PATCH    /api/tasks?_id=taskId
+- DELETE   /api/tasks?_id=taskId
+</pre>
