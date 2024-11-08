@@ -32,7 +32,7 @@ const taskSchema = new mongoose.Schema({
     // reference to the user who created the task
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        required: false, // TODO: change to true
+        required: true, // TODO: change to true
         ref: 'User'
     }
 

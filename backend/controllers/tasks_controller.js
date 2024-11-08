@@ -66,8 +66,15 @@ const getAllTasks = asynchWrapper(async (req, res, next) => {
 
 const createTask = asynchWrapper(async (req, res, next) => {
     // console.log(req.body);
-    const task = new Task(req.body);
-    // console.log(task);
+    // const task = new Task(req.body);
+    // // console.log(task);
+    // await task.save();
+    // res.status(201).json({status: httpStatusText.SUCCESS, message: 'Task created successfully', data: task});
+    console.log(req.user);
+    const task = new Task({
+        ...req.body,
+        user: req.user.id
+    });
     await task.save();
     res.status(201).json({status: httpStatusText.SUCCESS, message: 'Task created successfully', data: task});
 

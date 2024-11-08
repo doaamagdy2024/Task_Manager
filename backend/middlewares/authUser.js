@@ -4,7 +4,6 @@ const httpStatusText = require('../utils/httpStatusText.js');
 
 const authUser = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-    console.log(authHeader);
     if (!authHeader) {
         return next(new AppError('Unauthorized (you must be logged in)', 401, httpStatusText.FAILURE));
     }
@@ -12,6 +11,7 @@ const authUser = async (req, res, next) => {
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        req.user = payload;
         console.log(payload);
         next();
     } catch (error) {
