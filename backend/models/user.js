@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -9,11 +10,14 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        trim: true
+        unique: true,
+        trim: true,
+        validate: [validator.isEmail, 'Email is invalid']
     },
     password: {
         type: String,
         required: true,
+        unique: true,
         trim: true,
         minlength: 7,
         validate(value) {
@@ -22,13 +26,10 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    age: {
-        type: Number,
-        default: 0,
-        validate(value) {
-            if (value < 0) {
-                throw new Error('Age must be a positive number');
-            }
-        }
+    token: {
+        type: String,
+        required: true
     }
 });
+
+module.exports = mongoose.model('User', userSchema);

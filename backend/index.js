@@ -25,6 +25,9 @@ app.use(express.json());
 const tasksRoute = require('./routes/tasks_route');
 app.use('/api/tasks', tasksRoute);
 
+const usersRoute = require('./routes/users_route');
+app.use('/api/users', usersRoute);
+
 
 // error handling --> if the route is not found
 app.all('*', (req, res) => {
